@@ -1,0 +1,17 @@
+[Unit]
+Description=ESCA settings service (Wi-Fi, Ethernet, Bluetooth)
+Requires=dbus.socket
+After=dbus.socket systemd-networkd.service bluetooth.service
+Wants=systemd-networkd.service bluetooth.service
+
+[Service]
+Type=dbus
+BusName=vn.sparc.esca.Settings1
+ExecStart=/usr/sbin/esca-settingsd
+Restart=on-failure
+RestartSec=2
+# Root: it writes network configuration and switches radios.
+User=root
+
+[Install]
+WantedBy=multi-user.target
